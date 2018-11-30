@@ -6,6 +6,10 @@ name = "pypi"
 [packages]
 flask = "*"
 flask-restful = "*"
+pytest = "*"
+pytest-runner = "*"
+sklearn = "*"
+"pysqlite3" = "*"
 
 [dev-packages]
 
