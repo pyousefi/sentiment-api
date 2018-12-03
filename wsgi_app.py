@@ -12,4 +12,4 @@ api.add_resource(Model, '/model')
 api.add_resource(Data, '/data')
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port="8080")
+    app.run(debug=True, host="0.0.0.0", port=os.environ.get("PORT"))
