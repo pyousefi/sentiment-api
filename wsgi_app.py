@@ -3,6 +3,7 @@ from flask_restful import Api, Resource, reqparse
 # from resources.model import Model
 from resources.data import Data
 from resources.nlpmodel import NLPModel
+
 import numpy as np 
 import pickle
 import os
@@ -39,6 +40,7 @@ class PredictSentiment(Resource):
 
         # Output either 'Negative' or 'Positive' along with the score
         if prediction == 0:
+            mlkjk
             pred_text = 'Negative'
         else:
             pred_text = 'Positive'
