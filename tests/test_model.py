@@ -17,16 +17,16 @@ def test_vectorization():
     # TypeError: Object of type 'csr_matrix' is not JSON serializable
     pass
 
-def test_classification():
-    model = NLPModel()
-    uq_vectorized = model.vectorizer_transform(np.array(["nice is good"]))
-    prediction = model.predict(uq_vectorized)
-    pred_proba = model.predict_proba(uq_vectorized)
-    if prediction == 0:
-        pred_text = 'Negative'
-    else:
-        pred_text = 'Positive'
-    assert pred_text == "Positive"
+# def test_classification():
+#     model = NLPModel()
+#     uq_vectorized = model.vectorizer_transform(np.array(["nice is good"]))
+#     prediction = model.predict(uq_vectorized)
+#     pred_proba = model.predict_proba(uq_vectorized)
+#     if prediction == 0:
+#         pred_text = 'Negative'
+#     else:
+#         pred_text = 'Positive'
+#     assert pred_text == "Positive"
 
     # No confidence test as it can change with model retraining
 
