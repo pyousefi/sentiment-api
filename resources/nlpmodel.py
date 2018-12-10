@@ -1,26 +1,37 @@
-# ML imports
 from sklearn.naive_bayes import MultinomialNB
-# from sklearn.naive_bayes import BernoulliNB
 from sklearn.feature_extraction.text import TfidfVectorizer
+import os
+import joblib
+import time
 
-# from sklearn.ensemble import RandomForestClassifier
-import pickle
-
-#from util import plot_roc
-# spacy_tok
+dir_path = os.path.dirname(os.path.abspath(__file__))
+CLASSIFIER = dir_path + "/res/SentimentClassifier.pkl"
+VECTORIZER = dir_path + "/res/TFIDFVectorizer.pkl"
 
 
-class NLPModel(object):
+class NLPModel():
 
-    def __init__(self):
+    def __init__(self, load_model=True):
         """Simple NLP
         Attributes:
             clf: sklearn classifier model
-            vectorizor: TFIDF vectorizer or similar
+            vectorizer: TFIDF vectorizer or similar
         """
         self.clf = MultinomialNB()
-        # self.vectorizer = TfidfVectorizer(tokenizer=spacy_tok)
         self.vectorizer = TfidfVectorizer()
+        if load_model:
+            self.load_model()
+
+    def load_model(self):
+        self.clf = joblib.load(CLASSIFIER)
+        self.vectorizer = joblib.load(VECTORIZER)
+
+    def save_model(self):
+        file_name = "SentimentClassifier_" + time.time() + ".pkl"
+        joblib.dump(self.clf, dir_path + "/res/" + file_name)
+
+        file_name = "TFIDFVectorizer_" + time.time() + ".pkl"
+        joblib.dump(self.vectorizer, dir_path + "/res/" + file_name)
 
     def vectorizer_fit(self, X):
         """Fits a TFIDF vectorizer to the text
@@ -50,22 +61,3 @@ class NLPModel(object):
         """
         y_pred = self.clf.predict(X)
         return y_pred
-
-    def pickle_vectorizer(self, path='chalicelib/models/TFIDFVectorizer.pkl'):
-        """Saves the trained vectorizer for future use.
-        """
-        with open(path, 'wb') as f:
-            pickle.dump(self.vectorizer, f)
-            print("Pickled vectorizer at {}".format(path))
-
-    def pickle_clf(self, path='chalicelib/models/SentimentClassifier.pkl'):
-        """Saves the trained classifier for future use.
-        """
-        with open(path, 'wb') as f:
-            pickle.dump(self.clf, f)
-            print("Pickled classifier at {}".format(path))
-
-    # def plot_roc(self, X, y, size_x, size_y):
-    #     """Plot the ROC curve for X_test and y_test.
-    #     """
-    #     plot_roc(self.clf, X, y, size_x, size_y)
