@@ -27,7 +27,6 @@ Features
 --------
 
 * TODO
-hello
 
 Credits
 -------
