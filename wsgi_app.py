@@ -1,8 +1,14 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
 from resources.nlpmodel import NLPModel
-from resources.parser import Parser
+
 import numpy as np
+import os
+
+
+dir_path = os.path.dirname(os.path.abspath(__file__))
+CLASSIFIER = dir_path + "/resources/res/SentimentClassifier.pkl"
+VECTORIZER = dir_path + "/resources/res/TFIDFVectorizer.pkl"
 
 app = Flask(__name__)
 api = Api(app)
