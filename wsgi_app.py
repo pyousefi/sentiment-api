@@ -1,32 +1,19 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
-# from resources.model import Model
-from resources.data import Data
 from resources.nlpmodel import NLPModel
-import numpy as np 
-import pickle
-import os
-
-
-dir_path = os.path.dirname(os.path.abspath(__file__))
-CLASSIFIER = dir_path + "/resources/res/SentimentClassifier.pkl"
-VECTORIZER = dir_path + "/resources/res/TFIDFVectorizer.pkl"
-
+from resources.parser import Parser
+import numpy as np
 
 app = Flask(__name__)
 api = Api(app)
 
 model = NLPModel()
-with open(CLASSIFIER, 'rb') as f:
-    model.clf = pickle.load(f)
-
-with open(VECTORIZER, 'rb') as f:
-    model.vectorizer = pickle.load(f)
 
 parser = reqparse.RequestParser()
 parser.add_argument('query')
 
 class PredictSentiment(Resource):
+
     def get(self):
         # use parser and find the user's query
         args = parser.parse_args()
@@ -51,11 +38,8 @@ class PredictSentiment(Resource):
 
         return output
 
-#api.add_resource(Model, '/Model', '/Model/<str:id>')
-# api.add_resource(Model, '/model')
-api.add_resource(Data, '/data')
 api.add_resource(PredictSentiment, '/')
 
 if __name__ == '__main__':
-    #app.run(debug=True, host="0.0.0.0", port=os.environ.get("PORT"))
-    app.run(debug=True, host="0.0.0.0", port=8080)
+    app.run(debug=True, host="0.0.0.0", port=os.environ.get("PORT"))
+    # app.run(debug=True, host="0.0.0.0", port=8080)
