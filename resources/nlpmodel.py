@@ -21,16 +21,18 @@ class NLPModel():
         self.vectorizer = TfidfVectorizer()
         if load_model:
             self.load_model()
+        self.score = None
 
     def load_model(self):
         self.clf = joblib.load(CLASSIFIER)
         self.vectorizer = joblib.load(VECTORIZER)
 
     def save_model(self):
-        file_name = "SentimentClassifier_" + time.time() + ".pkl"
+        # file_name = "SentimentClassifier_" + time.time() + ".pkl"
+        file_name = "SentimentClassifier.pkl"
         joblib.dump(self.clf, dir_path + "/res/" + file_name)
 
-        file_name = "TFIDFVectorizer_" + time.time() + ".pkl"
+        file_name = "TFIDFVectorizer.pkl"
         joblib.dump(self.vectorizer, dir_path + "/res/" + file_name)
 
     def vectorizer_fit(self, X):

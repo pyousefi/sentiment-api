@@ -1,6 +1,9 @@
 from flask_restful import Resource, reqparse
 from resources.nlpmodel import NLPModel
 from pymongo import MongoClient
+import os
+
+MONGO = os.environ.get("MONGO", "localhost:27017")
 
 class InsertSentence(Resource):
 
@@ -11,7 +14,7 @@ class InsertSentence(Resource):
         else:
             raise ValueError("Value is not between 0 and 4")
 
-    parser = reqparse.RequestParser()  # only allow price changes, no name changes allowed
+    parser = reqparse.RequestParser()
     parser.add_argument("sentence", type=str, required=True, help="Field required")
     parser.add_argument("polarity", type=polarity, required=True, help="Field required: polarity between 0 and 4")
 
@@ -23,10 +26,15 @@ class InsertSentence(Resource):
         sentence = args["sentence"]
         polarity = args["polarity"]
 
-        client = MongoClient("mongo")
-        client.drop_database("sentiment")
+        client = MongoClient(MONGO)
         db = client["sentiment"]
         last_id = db["text"].find({"$query": {}, "$orderby": {"$natural": -1}})[0]["_id"]
         db["text"].insert_one({"_id": last_id+1, "sentence": sentence, "polarity": polarity})
 
-        return {"sentence": sentence, "polarity": polarity}
+        return {
+            "sentence": sentence,
+            "polarity": polarity,
+            "id": last_id+1
+        }
+
+# TODO: delete and update sentence routes
