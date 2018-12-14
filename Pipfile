@@ -15,6 +15,7 @@ numpy = "*"
 scipy = "*"
 pandas = "*"
 joblib = "*"
+pymongo = "*"
 
 [dev-packages]
 

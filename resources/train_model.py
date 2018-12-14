@@ -1,18 +1,13 @@
-from model import NLPModel
 import pandas as pd
-# import numpy as np
-# import matplotlib.pyplot as plt
+from pymongo import MongoClient
+from resources.nlpmodel import NLPModel
 from sklearn.model_selection import train_test_split
 
 
-def build_model():
+def train_model():
     model = NLPModel()
-
-    # filename = os.path.join(
-    #     os.path.dirname(__file__), 'chalicelib', 'all/train.tsv')
-    with open('../sentiment_data/train.tsv') as f:
-        data = pd.read_csv(f, sep='\t')
-
+    cursor = db["text"].find()
+    df = pd.DataFrame(list(cursor))
     pos_neg = data[(data['Sentiment'] == 0) | (data['Sentiment'] == 4)]
 
     pos_neg['Binary'] = pos_neg.apply(

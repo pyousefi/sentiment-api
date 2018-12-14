@@ -1,7 +1,8 @@
 from flask_restful import Resource, reqparse
 from resources.nlpmodel import NLPModel
+from pymongo import MongoClient
 
-class Retraining(Resource):
+class InsertSentence(Resource):
 
     def polarity(value):
         for value_correct in range(5):
@@ -18,8 +19,14 @@ class Retraining(Resource):
         self.model = NLPModel()
 
     def post(self):
-        args = Retraining.parser.parse_args()
+        args = InsertSentence.parser.parse_args()
         sentence = args["sentence"]
         polarity = args["polarity"]
+
+        client = MongoClient("mongo")
+        client.drop_database("sentiment")
+        db = client["sentiment"]
+        last_id = db["text"].find({"$query": {}, "$orderby": {"$natural": -1}})[0]["_id"]
+        db["text"].insert_one({"_id": last_id+1, "sentence": sentence, "polarity": polarity})
 
         return {"sentence": sentence, "polarity": polarity}
