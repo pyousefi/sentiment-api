@@ -16,6 +16,7 @@ scipy = "*"
 pandas = "*"
 joblib = "*"
 pymongo = "*"
+flask-cors = "*"
 
 [dev-packages]
 

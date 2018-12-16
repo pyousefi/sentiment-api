@@ -6,9 +6,7 @@ class PredictSentiment(Resource):
 
     parser = reqparse.RequestParser()  # only allow price changes, no name changes allowed
     parser.add_argument("query", type=str, required=True, help="Field required")
-
     def __init__(self):
-
         self.model = NLPModel()
 
     def get(self):
