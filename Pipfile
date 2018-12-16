@@ -16,6 +16,7 @@ scipy = "*"
 pandas = "*"
 joblib = "*"
 pymongo = "*"
+unidecode = "*"
 
 [dev-packages]
 

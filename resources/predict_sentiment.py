@@ -1,8 +1,15 @@
 from flask_restful import Api, Resource, reqparse
 from resources.nlpmodel import NLPModel
 import numpy as np
+import unidecode
 
 class PredictSentiment(Resource):
+
+    def processing(text):
+        text = text.lower()
+        text = unidecode.unidecode(text)
+
+        return text
 
     parser = reqparse.RequestParser()  # only allow price changes, no name changes allowed
     parser.add_argument("query", type=str, required=True, help="Field required")
@@ -15,6 +22,8 @@ class PredictSentiment(Resource):
         # use parser and find the user's query
         args = PredictSentiment.parser.parse_args()
         user_query = args['query']
+
+        user_query = self.processing(user_query)
 
         # vectorize the user's query and make a prediction
         uq_vectorized = self.model.vectorizer_transform(np.array([user_query]))

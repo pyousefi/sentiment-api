@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 
-from resources.predictsentiment import PredictSentiment
+from resources.predict_sentiment import PredictSentiment
 from resources.data_manipulation import InsertSentence
 from resources.train_model import TrainModel
 
