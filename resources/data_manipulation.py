@@ -4,6 +4,8 @@ from pymongo import MongoClient
 import os
 
 MONGO = os.environ.get("MONGO", "localhost:27017")
+dir_path = os.path.dirname(os.path.abspath(__file__))
+STOPWORDS = dir_path + "/res/stopwords_nltk.txt"
 
 class InsertSentence(Resource):
 
@@ -20,11 +22,17 @@ class InsertSentence(Resource):
 
     def __init__(self):
         self.model = NLPModel()
+        with open(STOPWORDS, "r") as f:
+            stopwords = f.readlines()
+        self.stopwords = [word.replace("\n", "") for word in stopwords]
 
     def post(self):
         args = InsertSentence.parser.parse_args()
         sentence = args["sentence"]
         polarity = args["polarity"]
+
+        list_word = [word for word in sentence.split() if word not in self.stopwords]
+        sentence = " ".join(list_word)
 
         client = MongoClient(MONGO)
         db = client["sentiment"]
