@@ -28,6 +28,7 @@ Features
 
 - Data importation to MongoDB and classifier
 - Follow the instructions in the docker-compose repository for deploying the project
+- Try the app at http://esiee-imc.westeurope.cloudapp.azure.com/
     
 
 Credits
