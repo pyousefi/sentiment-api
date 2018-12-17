@@ -45,32 +45,3 @@ class TrainModel(Resource):
             "message": "Model has been retrained!",
             "score": model.score
         }
-
-# def train_model():
-#     model = NLPModel()
-#     cursor = db["text"].find()
-#     df = pd.DataFrame(list(cursor))
-#     pos_neg = df[(df['polarity'] == 0) | (df['polarity'] == 4)]
-#
-#     pos_neg['Binary'] = pos_neg.apply(
-#         lambda x: 0 if x['polarity'] == 0 else 1, axis=1)
-#
-#     model.vectorizer_fit(pos_neg.loc[:, 'sentence'])
-#     print('Vectorizer fit complete')
-#
-#     X = model.vectorizer_transform(pos_neg.loc[:, 'sentence'])
-#     print('Vectorizer transform complete')
-#     y = pos_neg.loc[:, 'Binary']
-#
-#     X_train, X_test, y_train, y_test = train_test_split(X, y)
-#
-#     model.train(X_train, y_train)
-#     print('Model training complete')
-#
-#     # TODO: archive pickles
-#     model.save_model()
-#
-#     model.score = roc_auc_score(y_test, model.predict(X_test))
-
-# if __name__ == "__main__":
-#     train_model()

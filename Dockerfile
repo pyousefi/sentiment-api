@@ -10,5 +10,7 @@ RUN pipenv install --system
 ENV PORT "5000"
 ENV MONGO "mongo"
 
+EXPOSE 5000
+
 ENTRYPOINT ["/bin/bash"]
 CMD ["run.sh"]
