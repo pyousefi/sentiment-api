@@ -17,6 +17,7 @@ pandas = "*"
 joblib = "*"
 pymongo = "*"
 unidecode = "*"
+flask-cors = "*"
 
 [dev-packages]
 
